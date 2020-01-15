@@ -38,7 +38,7 @@ public:
     stk::mesh::FieldBase * field,
     AuxFunction * auxFunction,
     stk::mesh::EntityRank entityRank,
-    const bool parallelCommunicate = false);
+    const bool parallelCommunicate = true);
 
   virtual ~AuxFunctionAlgorithm();
   virtual void execute();
