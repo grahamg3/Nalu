@@ -1724,7 +1724,7 @@ MomentumEquationSystem::register_wall_bc(
         theAuxFunc = new RotatingWallAuxFunction(0,nDim,theParams);
       }
       else {
-        throw std::runtime_error("Only wind_energy and tornado user functions supported");
+        throw std::runtime_error("Only wind_energy, tornado, and rotating_wall user functions supported");
       }
     }
   }
