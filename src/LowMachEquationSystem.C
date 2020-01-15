@@ -180,6 +180,7 @@
 #include "user_functions/PulseVelocityAuxFunction.h"
 
 #include "user_functions/InflowPerturbationAuxFunction.h"
+#include "user_functions/RotatingWallAuxFunction.h"
 
 // deprecated
 #include "ContinuityMassElemSuppAlgDep.h"
@@ -1718,6 +1719,9 @@ MomentumEquationSystem::register_wall_bc(
       else if ( fcnName == "wind_energy" ) {
         std::vector<std::string> theStringParams  = get_bc_function_string_params(userData, velocityName);
      	theAuxFunc = new WindEnergyAuxFunction(0,nDim, theStringParams, realm_);
+      }
+      else if ( fcnName == "rotating_wall" ) {
+        theAuxFunc = new RotatingWallAuxFunction(0,nDim,theParams);
       }
       else {
         throw std::runtime_error("Only wind_energy and tornado user functions supported");
