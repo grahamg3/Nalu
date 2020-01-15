@@ -179,6 +179,8 @@
 
 #include "user_functions/PulseVelocityAuxFunction.h"
 
+#include "user_functions/InflowPerturbationAuxFunction.h"
+
 // deprecated
 #include "ContinuityMassElemSuppAlgDep.h"
 #include "MomentumMassElemSuppAlgDep.h"
@@ -1493,6 +1495,9 @@ MomentumEquationSystem::register_inflow_bc(
     }
     else if ( fcnName == "pulse" ) {
       theAuxFunc = new PulseVelocityAuxFunction(0,nDim,theParams);
+    }
+    else if ( fcnName == "inflow_perturbation" ) {
+      theAuxFunc = new InflowPerturbationAuxFunction(0,nDim,theParams);
     }
     else {
       throw std::runtime_error("MomentumEquationSystem::register_inflow_bc: limited functions supported");
