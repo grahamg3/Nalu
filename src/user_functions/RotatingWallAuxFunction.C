@@ -58,7 +58,7 @@ RotatingWallAuxFunction::do_evaluate(
     
     fieldPtr[0] = -angularVelocity_*radius*std::sin(theta);
     fieldPtr[1] = angularVelocity_*radius*std::cos(theta);
-    fieldPtr[2] = zVelocity;
+    fieldPtr[2] = zVelocity_;
     
     fieldPtr += fieldSize;
     coords += spatialDimension;
