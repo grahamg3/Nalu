@@ -30,7 +30,7 @@ InflowPerturbationAuxFunction::InflowPerturbationAuxFunction(
   // max amplitudes
   ax_(0.1),
   ay_(0.1),
-  az_(0.1),
+  az_(0.1)
 {
   //extract the parameters
   if ( params.size() != 6 || params.empty() )
