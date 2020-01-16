@@ -40,8 +40,8 @@ public:
 private:
   double xCentroid_;
   double yCentroid_;
-  double MaxR_;
-  double MaxMagnitude_;
+  double angularVelocity_;
+  double zVelocity_;
 };
 
 } // namespace nalu
