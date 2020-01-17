@@ -658,6 +658,9 @@ LowMachEquationSystem::register_initial_condition_fcn(
     else if ( fcnName == "ChannelFlowPerturbedPlug" ) {
       theAuxFunc = new ChannelFlowPerturbedPlugVelocityAuxFunction(0,nDim,fcnParams);
     }
+    else if (fcnName == "inflow_perturbation" ) {
+      theAuxFunc = new InflowPerturbationAuxFunction(0,ndim,fcnParams);
+    }
     else {
       throw std::runtime_error("InitialCondFunction::non-supported velocity IC"); 
     }
