@@ -1724,7 +1724,10 @@ MomentumEquationSystem::register_wall_bc(
      	theAuxFunc = new WindEnergyAuxFunction(0,nDim, theStringParams, realm_);
       }
       else if ( fcnName == "rotating_wall" ) {
-        theAuxFunc = new RotatingWallAuxFunction(0,nDim,theParams);
+	// extract the params
+        auto iterParams = theParams.find(dofName);
+        std::vector<double> fcnParams = (iterParams != theParams.end()) ? (*iterParams).second : std::vector<double>();
+        theAuxFunc = new RotatingWallAuxFunction(0,nDim,fcnParams);
       }
       else {
         throw std::runtime_error("Only wind_energy, tornado, and rotating_wall user functions supported");
