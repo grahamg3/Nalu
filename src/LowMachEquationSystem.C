@@ -2642,7 +2642,7 @@ ContinuityEquationSystem::register_inflow_bc(
       theAuxFunc = new PulseVelocityAuxFunction(0,nDim,theParams);
     }
     else if ( fcnName == "inflow_perturbation" ) {
-      theAuxFunc = new InflowPerturbationAuxFunction(0,ndim,theParams);
+      theAuxFunc = new InflowPerturbationAuxFunction(0,nDim,theParams);
     }
     else {
       throw std::runtime_error("ContEquationSystem::register_inflow_bc: limited functions supported");
