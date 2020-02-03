@@ -6,7 +6,7 @@
 /*------------------------------------------------------------------------*/
 
 
-#include <RotatingWallAuxFunction.h>
+#include <user_functions/RotatingWallAuxFunction.h>
 #include <algorithm>
 
 // basic c++
