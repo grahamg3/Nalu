@@ -1715,6 +1715,7 @@ MomentumEquationSystem::register_wall_bc(
     else if ( FUNCTION_UD == theDataType ) {
       // extract the name and parameters (double and string)
       std::string fcnName = get_bc_function_name(userData, velocityName);
+      std::vector<double> theParams = get_bc_function_params(userData, velocityName);
       // switch on the name found...
       if ( fcnName == "tornado" ) {
         theAuxFunc = new TornadoAuxFunction(0,nDim);
@@ -1724,10 +1725,7 @@ MomentumEquationSystem::register_wall_bc(
      	theAuxFunc = new WindEnergyAuxFunction(0,nDim, theStringParams, realm_);
       }
       else if ( fcnName == "rotating_wall" ) {
-	// extract the params
-        auto iterParams = theParams.find(dofName);
-        std::vector<double> fcnParams = (iterParams != theParams.end()) ? (*iterParams).second : std::vector<double>();
-        theAuxFunc = new RotatingWallAuxFunction(0,nDim,fcnParams);
+        theAuxFunc = new RotatingWallAuxFunction(0,nDim,theParams);
       }
       else {
         throw std::runtime_error("Only wind_energy, tornado, and rotating_wall user functions supported");
