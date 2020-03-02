@@ -23,24 +23,35 @@ VelocityInterpolator1DAuxFunction::VelocityInterpolator1DAuxFunction(
   const unsigned endPos,
   const std::vector<double> &params) :
   AuxFunction(beginPos,endPos),
-  // average velocities
-  ux_(0.0),
-  uy_(0.0),
-  uz_(1.0),
-  // max amplitudes
-  ax_(0.1),
-  ay_(0.1),
-  az_(0.1)
+  // coordinates (this defines which coordinate is used to locate the interpolation)
+  x_(0),
+  y_(0),
+  z_(0),
+  r_(0),
+  // positions vector
+  minpos_(0.0),
+  maxpos_(0.0),
+  pos_({0.0, 0.0, 0.0}),
+  // velocities array
+  vel_({{0.0, 0.0, 0.0},{0.0, 0.0, 0.0}})
 {
   //extract the parameters
   if ( params.size() != 6 || params.empty() )
-    throw std::runtime_error("VelocityInterpolator1DAuxFunction: requires u, v, w, ax, ay, az"); 
-  ux_ = params[0];
-  uy_ = params[1];
-  uz_ = params[2];
-  ax_ = params[3];
-  ay_ = params[4];
-  az_ = params[5];
+    throw std::runtime_error("VelocityInterpolator1DAuxFunction: requires direction, default velocity components, table"); 
+    // First input is a number from 1 to 4 defining direction (1=x, 2=y, 3=z, 4=r)
+    // Afterward, there is a table formed by alternating the position and the three velocity components
+    // e.g. position, component1, component2, component3, position, component1, component2, component3 etc.
+    // Second, third, fourth inputs are the values used outside of the range of data provided
+    // If interpolation direction is x, y, or z, cartesian components are assumed for velocity (vx, vy, vz)
+    // If interpolation direction is r, cylindrical components are assumed for velocity (vr, vtheta, vz)
+  x_ = (params[0] == 1);
+  y_ = (params[0] == 2);
+  z_ = (params[0] == 3);
+  r_ = (params[0] == 4);
+  minpos_ = params[4];
+  maxpos_ = params[params.size() - 4];
+  for(unsigned n=0; n < params.size(); ++n) {
+  }
 }
 
 void
