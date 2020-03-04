@@ -37,7 +37,7 @@ VelocityInterpolator1DAuxFunction::VelocityInterpolator1DAuxFunction(
   defaultvel_({0.0,0.0,0.0})
 {
   //extract the parameters
-  if ( params.size() != 6 || params.empty() )
+  if ( params.empty() )
     throw std::runtime_error("VelocityInterpolator1DAuxFunction: requires direction, default velocity components, table"); 
     // First input is a number from 1 to 4 defining direction (1=x, 2=y, 3=z, 4=r)
     // Afterward, there is a table formed by alternating the position and the three velocity components
@@ -82,36 +82,36 @@ VelocityInterpolator1DAuxFunction::do_evaluate(
     const double theta = std::atan2(yp, xp);
 
     // find the value of the direction used for index
-    const double index_ = x_*xp + y_*yp + z_*zp + r_*(radius);
+    const double index = x_*xp + y_*yp + z_*zp + r_*(radius);
     
     // interpolate velocities using index
-    if ( index_ < minpos || index > maxpos ) {
-      pointvelocity_ = defaultvel_;
+    if ( index < minpos_ || index > maxpos_ ) {
+      pointvelocity = defaultvel_;
     } else {
-      bool passed_ = false;
+      bool passed = false;
       for(unsigned m=0; m < pos_.size(); ++m) {
-        if(index_ == pos_[m]) {
-          pointvelocity_ = {vel_[m][0], vel_[m][1], vel_[m][2]};
-        } else if(index_ > pos_[m] && passed_ == false) {
-          passed_ = true;
-          double ratio_ = (index_ - pos_[m])/(pos_[m+1] - pos[m]);
-          double comp1_ = vel_[m][0] + ratio_*(vel_[m+1][0] - vel_[m][0]);
-          double comp2_ = vel_[m][1] + ratio_*(vel_[m+1][1] - vel_[m][1]);
-          double comp3_ = vel_[m][2] + ratio_*(vel_[m+1][2] - vel_[m][2]);
-          pointvelocity_ = {comp1_, comp2_, comp3_};
+        if(index == pos_[m]) {
+          pointvelocity = {vel_[m][0], vel_[m][1], vel_[m][2]};
+        } else if(index > pos_[m] && passed == false) {
+          passed = true;
+          double ratio = (index - pos_[m])/(pos_[m+1] - pos[m]);
+          double comp1 = vel_[m][0] + ratio*(vel_[m+1][0] - vel_[m][0]);
+          double comp2 = vel_[m][1] + ratio*(vel_[m+1][1] - vel_[m][1]);
+          double comp3 = vel_[m][2] + ratio*(vel_[m+1][2] - vel_[m][2]);
+          pointvelocity = {comp1, comp2, comp3};
         }
       }
     }
     
     // transform results into correct coordinates and apply to field
     if ( r_ == 1 ) {
-      fieldPtr[0] = pointvelocity_[0]*cos(theta) - pointvelocity_[1]*radius*std::sin(theta);
-      fieldPtr[1] = pointvelocity_[0]*sin(theta) + pointvelocity_[1]*radius*std::cos(theta);
-      fieldPtr[2] = pointvelocity_[2];
+      fieldPtr[0] = pointvelocity[0]*cos(theta) - pointvelocity[1]*radius*std::sin(theta);
+      fieldPtr[1] = pointvelocity[0]*sin(theta) + pointvelocity[1]*radius*std::cos(theta);
+      fieldPtr[2] = pointvelocity[2];
     } else {
-      fieldPtr[0] = pointvelocity_[0]
-      fieldPtr[1] = pointvelocity_[1];
-      fieldPtr[2] = pointvelocity_[2];
+      fieldPtr[0] = pointvelocity[0]
+      fieldPtr[1] = pointvelocity[1];
+      fieldPtr[2] = pointvelocity[2];
     }
 
     fieldPtr += fieldSize;
