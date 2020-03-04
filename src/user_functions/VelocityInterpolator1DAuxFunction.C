@@ -74,7 +74,7 @@ VelocityInterpolator1DAuxFunction::do_evaluate(
   for(unsigned p=0; p < numPoints; ++p) {
     
     // initialize variables at point
-    double pointvelocity_[3] = defaultvel_;
+    std::vector<double> pointvelocity_[3] = defaultvel_;
     const double xp = coords[0];
     const double yp = coords[1];
     const double zp = coords[2];
