@@ -76,7 +76,9 @@ VelocityInterpolator1DAuxFunction::do_evaluate(
   for(unsigned p=0; p < numPoints; ++p) {
     
     // initialize variables at point
-    std::vector<double> pointvelocity[3] = defaultvel_;
+    double v0 = defaultvel_[0];
+    double v1 = defaultvel_[1];
+    double v2 = defaultvel_[2];
     const double xp = coords[0];
     const double yp = coords[1];
     const double zp = coords[2];
@@ -88,32 +90,35 @@ VelocityInterpolator1DAuxFunction::do_evaluate(
     
     // interpolate velocities using index
     if ( index < minpos_ || index > maxpos_ ) {
-      pointvelocity = defaultvel_;
+      v0 = defaultvel_[0];
+      v1 = defaultvel_[1];
+      v2 = defaultvel_[2];
     } else {
       bool passed = false;
       for(unsigned m=0; m < pos_.size(); ++m) {
         if(index == pos_[m]) {
-          pointvelocity = {vel0_[m], vel1_[m], vel2_[m]};
+          v0 = vel0_[m];
+          v1 = vel1_[m];
+          v2 = vel2_[m];
         } else if(index > pos_[m] && passed == false) {
           passed = true;
           double ratio = (index - pos_[m])/(pos_[m+1] - pos_[m]);
-          double comp1 = vel0_[m] + ratio*(vel0_[m+1] - vel0_[m]);
-          double comp2 = vel1_[m] + ratio*(vel1_[m+1] - vel1_[m]);
-          double comp3 = vel2_[m] + ratio*(vel2_[m+1] - vel2_[m]);
-          pointvelocity = {comp1, comp2, comp3};
+          v0 = vel0_[m] + ratio*(vel0_[m+1] - vel0_[m]);
+          v1 = vel1_[m] + ratio*(vel1_[m+1] - vel1_[m]);
+          v2 = vel2_[m] + ratio*(vel2_[m+1] - vel2_[m]);
         }
       }
     }
     
     // transform results into correct coordinates and apply to field
     if ( r_ == 1 ) {
-      fieldPtr[0] = pointvelocity[0]*cos(theta) - pointvelocity[1]*radius*std::sin(theta);
-      fieldPtr[1] = pointvelocity[0]*sin(theta) + pointvelocity[1]*radius*std::cos(theta);
-      fieldPtr[2] = pointvelocity[2];
+      fieldPtr[0] = v0*cos(theta) - v1*radius*std::sin(theta);
+      fieldPtr[1] = v0*sin(theta) + v1*radius*std::cos(theta);
+      fieldPtr[2] = v2;
     } else {
-      fieldPtr[0] = pointvelocity[0];
-      fieldPtr[1] = pointvelocity[1];
-      fieldPtr[2] = pointvelocity[2];
+      fieldPtr[0] = v0;
+      fieldPtr[1] = v1;
+      fieldPtr[2] = v2;
     }
 
     fieldPtr += fieldSize;
