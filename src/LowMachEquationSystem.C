@@ -181,7 +181,7 @@
 
 #include "user_functions/InflowPerturbationAuxFunction.h"
 #include "user_functions/RotatingWallAuxFunction.h"
-#include "user_functions/VelocityInterpolator1D
+#include "user_functions/VelocityInterpolator1DAuxFunction.h"
 
 // deprecated
 #include "ContinuityMassElemSuppAlgDep.h"
