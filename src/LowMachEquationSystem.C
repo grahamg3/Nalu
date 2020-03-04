@@ -181,6 +181,7 @@
 
 #include "user_functions/InflowPerturbationAuxFunction.h"
 #include "user_functions/RotatingWallAuxFunction.h"
+#include "user_functions/VelocityInterpolator1D
 
 // deprecated
 #include "ContinuityMassElemSuppAlgDep.h"
@@ -1503,6 +1504,9 @@ MomentumEquationSystem::register_inflow_bc(
     else if ( fcnName == "inflow_perturbation" ) {
       theAuxFunc = new InflowPerturbationAuxFunction(0,nDim,theParams);
     }
+    else if ( fcnName == "velocity_interpolator" ) {
+      theAuxFunc = new VelocityInterpolator1DAuxFunction(0,nDim,theParams);
+    }
     else {
       throw std::runtime_error("MomentumEquationSystem::register_inflow_bc: limited functions supported");
     }
@@ -2644,6 +2648,9 @@ ContinuityEquationSystem::register_inflow_bc(
     }
     else if ( fcnName == "inflow_perturbation" ) {
       theAuxFunc = new InflowPerturbationAuxFunction(0,nDim,theParams);
+    }
+    else if ( fcnName == "velocity_interpolator" ) {
+      theAuxFunc = new VelocityInterpolator1DAuxFunction(0,nDim,theParams);
     }
     else {
       throw std::runtime_error("ContEquationSystem::register_inflow_bc: limited functions supported");
