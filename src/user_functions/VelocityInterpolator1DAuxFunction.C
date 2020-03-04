@@ -33,7 +33,9 @@ VelocityInterpolator1DAuxFunction::VelocityInterpolator1DAuxFunction(
   maxpos_(0.0),
   pos_({0.0, 0.0, 0.0}),
   // velocities array
-  vel_({{0.0, 0.0, 0.0},{0.0, 0.0, 0.0}}),
+  vel0_({0.0, 0.0, 0.0}),
+  vel1_({0.0, 0.0, 0.0}),
+  vel2_({0.0, 0.0, 0.0}),
   defaultvel_({0.0,0.0,0.0})
 {
   //extract the parameters
@@ -53,9 +55,9 @@ VelocityInterpolator1DAuxFunction::VelocityInterpolator1DAuxFunction(
   maxpos_ = params[params.size() - 4];
   for(unsigned n=4; n < params.size(); n += 4) {
     pos_[n/4-1] = params[n];
-    vel_[n/4-1][0] = params[n+1];
-    vel_[n/4-1][1] = params[n+2];
-    vel_[n/4-1][2] = params[n+3];
+    vel0_[n/4-1] = params[n+1];
+    vel1_[n/4-1] = params[n+2];
+    vel2_[n/4-1] = params[n+3];
   }
   defaultvel_ = {params[1], params[2], params[3]};
 }
@@ -91,13 +93,13 @@ VelocityInterpolator1DAuxFunction::do_evaluate(
       bool passed = false;
       for(unsigned m=0; m < pos_.size(); ++m) {
         if(index == pos_[m]) {
-          pointvelocity = {vel_[m][0], vel_[m][1], vel_[m][2]};
+          pointvelocity = {vel0_[m], vel1_[m], vel2_[m]};
         } else if(index > pos_[m] && passed == false) {
           passed = true;
           double ratio = (index - pos_[m])/(pos_[m+1] - pos[m]);
-          double comp1 = vel_[m][0] + ratio*(vel_[m+1][0] - vel_[m][0]);
-          double comp2 = vel_[m][1] + ratio*(vel_[m+1][1] - vel_[m][1]);
-          double comp3 = vel_[m][2] + ratio*(vel_[m+1][2] - vel_[m][2]);
+          double comp1 = vel0_[m] + ratio*(vel0_[m+1] - vel0_[m]);
+          double comp2 = vel1_[m] + ratio*(vel1_[m+1] - vel1_[m]);
+          double comp3 = vel2_[m] + ratio*(vel2_[m+1] - vel2_[m]);
           pointvelocity = {comp1, comp2, comp3};
         }
       }
