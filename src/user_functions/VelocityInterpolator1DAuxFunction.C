@@ -31,12 +31,12 @@ VelocityInterpolator1DAuxFunction::VelocityInterpolator1DAuxFunction(
   // positions vector
   minpos_(0.0),
   maxpos_(0.0),
-  pos_({0.0, 0.0, 0.0}),
+  //pos_({0.0, 0.0, 0.0}),
   // velocities array
-  vel0_({0.0, 0.0, 0.0}),
-  vel1_({0.0, 0.0, 0.0}),
-  vel2_({0.0, 0.0, 0.0}),
-  defaultvel_({0.0,0.0,0.0})
+  //vel0_({0.0, 0.0, 0.0}),
+  //vel1_({0.0, 0.0, 0.0}),
+  //vel2_({0.0, 0.0, 0.0}),
+  //defaultvel_({0.0,0.0,0.0})
 {
   //extract the parameters
   if ( params.empty() )
@@ -53,6 +53,13 @@ VelocityInterpolator1DAuxFunction::VelocityInterpolator1DAuxFunction(
   r_ = (params[0] == 4);
   minpos_ = params[4];
   maxpos_ = params[params.size() - 4];
+  
+  std::vector<float> pos_((params.size()-4)/4);
+  std::vector<float> vel0_((params.size()-4)/4);
+  std::vector<float> vel1_((params.size()-4)/4);
+  std::vector<float> vel2_((params.size()-4)/4);
+  std::vector<float> defaultvel_(3);
+  
   for(unsigned n=4; n < params.size(); n += 4) {
     pos_[n/4-1] = params[n];
     vel0_[n/4-1] = params[n+1];
