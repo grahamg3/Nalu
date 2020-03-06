@@ -30,7 +30,7 @@ VelocityInterpolator1DAuxFunction::VelocityInterpolator1DAuxFunction(
   r_(0),
   // positions vector
   minpos_(0.0),
-  maxpos_(0.0),
+  maxpos_(0.0)
   //pos_({0.0, 0.0, 0.0}),
   // velocities array
   //vel0_({0.0, 0.0, 0.0}),
