@@ -54,11 +54,11 @@ VelocityInterpolator1DAuxFunction::VelocityInterpolator1DAuxFunction(
   minpos_ = params[4];
   maxpos_ = params[params.size() - 4];
   
-  std::vector<double> pos_((params.size()-4)/4);
-  std::vector<double> vel0_((params.size()-4)/4);
-  std::vector<double> vel1_((params.size()-4)/4);
-  std::vector<double> vel2_((params.size()-4)/4);
-  std::vector<double> defaultvel_(3);
+  //std::vector<double> pos_((params.size()-4)/4);
+  //std::vector<double> vel0_((params.size()-4)/4);
+  //std::vector<double> vel1_((params.size()-4)/4);
+  //std::vector<double> vel2_((params.size()-4)/4);
+  //std::vector<double> defaultvel_(3);
   
   for(unsigned n=4; n < params.size(); n += 4) {
     pos_[n/4-1] = params[n];
