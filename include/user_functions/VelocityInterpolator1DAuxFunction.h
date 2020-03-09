@@ -35,8 +35,7 @@ public:
     double * fieldPtr,
     const unsigned fieldSize,
     const unsigned beginPos,
-    const unsigned endPos,
-    const std::vector<double> params) const;
+    const unsigned endPos) const;
   
 private:
   bool x_;
@@ -45,6 +44,7 @@ private:
   bool r_;
   double minpos_;
   double maxpos_;
+  std::vector<double> params_;
 };
 
 } // namespace nalu
