@@ -85,7 +85,7 @@ VelocityInterpolator1DAuxFunction::do_evaluate(
     } else {
       bool passed = false;
       for(unsigned n=4; n < params.size(); n += 4) {
-        if(index == params_[n]) {
+        if(index == params[n]) {
           v0 = params[n+1];
           v1 = params[n+2];
           v2 = params[n+3];
