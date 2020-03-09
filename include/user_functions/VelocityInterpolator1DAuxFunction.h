@@ -35,7 +35,8 @@ public:
     double * fieldPtr,
     const unsigned fieldSize,
     const unsigned beginPos,
-    const unsigned endPos) const;
+    const unsigned endPos,
+    const std::vector<double> &params) const;
   
 private:
   bool x_;
