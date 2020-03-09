@@ -34,9 +34,9 @@ public:
     const unsigned numPoints,
     double * fieldPtr,
     const unsigned fieldSize,
-    // const unsigned beginPos,
-    // const unsigned endPos,
-    const std::vector<double> &params) const;
+    const unsigned beginPos,
+    const unsigned endPos,
+    const std::vector<double> params) const;
   
 private:
   bool x_;
