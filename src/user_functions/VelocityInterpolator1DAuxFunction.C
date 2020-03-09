@@ -60,7 +60,7 @@ VelocityInterpolator1DAuxFunction::do_evaluate(
   const unsigned fieldSize,
   const unsigned /*beginPos*/,
   const unsigned /*endPos*/,
-  const std::vector<double> params) const
+  const std::vector<double> &params)
 {
   for(unsigned p=0; p < numPoints; ++p) {
     
