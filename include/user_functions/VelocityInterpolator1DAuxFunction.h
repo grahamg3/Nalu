@@ -44,11 +44,6 @@ private:
   bool r_;
   double minpos_;
   double maxpos_;
-  std::vector<double> pos_;
-  std::vector<double> vel0_;
-  std::vector<double> vel1_;
-  std::vector<double> vel2_;
-  std::vector<double> defaultvel_;
 };
 
 } // namespace nalu
