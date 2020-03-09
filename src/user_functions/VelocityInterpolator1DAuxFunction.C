@@ -28,15 +28,10 @@ VelocityInterpolator1DAuxFunction::VelocityInterpolator1DAuxFunction(
   y_(0),
   z_(0),
   r_(0),
-  // positions vector
+  // position limits
   minpos_(0.0),
   maxpos_(0.0)
-  //pos_({0.0, 0.0, 0.0}),
-  // velocities array
-  //vel0_({0.0, 0.0, 0.0}),
-  //vel1_({0.0, 0.0, 0.0}),
-  //vel2_({0.0, 0.0, 0.0}),
-  //defaultvel_({0.0,0.0,0.0})
+
 {
   //extract the parameters
   if ( params.empty() )
@@ -53,20 +48,6 @@ VelocityInterpolator1DAuxFunction::VelocityInterpolator1DAuxFunction(
   r_ = (params[0] == 4);
   minpos_ = params[4];
   maxpos_ = params[params.size() - 4];
-  
-  //std::vector<double> pos_((params.size()-4)/4);
-  //std::vector<double> vel0_((params.size()-4)/4);
-  //std::vector<double> vel1_((params.size()-4)/4);
-  //std::vector<double> vel2_((params.size()-4)/4);
-  //std::vector<double> defaultvel_(3);
-  
-  for(unsigned n=4; n < params.size(); n += 4) {
-    pos_[n/4-1] = params[n];
-    vel0_[n/4-1] = params[n+1];
-    vel1_[n/4-1] = params[n+2];
-    vel2_[n/4-1] = params[n+3];
-  }
-  defaultvel_ = {params[1], params[2], params[3]};
 }
 
 void
@@ -83,9 +64,9 @@ VelocityInterpolator1DAuxFunction::do_evaluate(
   for(unsigned p=0; p < numPoints; ++p) {
     
     // initialize variables at point
-    double v0 = defaultvel_[0];
-    double v1 = defaultvel_[1];
-    double v2 = defaultvel_[2];
+    double v0 = params[1];
+    double v1 = params[2];
+    double v2 = params[3];
     const double xp = coords[0];
     const double yp = coords[1];
     const double zp = coords[2];
@@ -97,22 +78,22 @@ VelocityInterpolator1DAuxFunction::do_evaluate(
     
     // interpolate velocities using index
     if ( index < minpos_ || index > maxpos_ ) {
-      v0 = defaultvel_[0];
-      v1 = defaultvel_[1];
-      v2 = defaultvel_[2];
+      v0 = params[1];
+      v1 = params[2];
+      v2 = params[3];
     } else {
       bool passed = false;
-      for(unsigned m=0; m < pos_.size(); ++m) {
-        if(index == pos_[m]) {
-          v0 = vel0_[m];
-          v1 = vel1_[m];
-          v2 = vel2_[m];
-        } else if(index > pos_[m] && passed == false) {
+      for(unsigned n=4; n < params.size(); n += 4) {
+        if(index == params[n]) {
+          v0 = params[n+1];
+          v1 = params[n+2];
+          v2 = params[n+3];
+        } else if(index > params[n] && passed == false) {
           passed = true;
-          double ratio = (index - pos_[m])/(pos_[m+1] - pos_[m]);
-          v0 = vel0_[m] + ratio*(vel0_[m+1] - vel0_[m]);
-          v1 = vel1_[m] + ratio*(vel1_[m+1] - vel1_[m]);
-          v2 = vel2_[m] + ratio*(vel2_[m+1] - vel2_[m]);
+          double ratio = (index - params[n])/(params[n+4] - params[n]);
+          v0 = params[n+1] + ratio*(params[n+5] - params[n+1]);
+          v1 = params[n+2] + ratio*(params[n+6] - params[n+2]);
+          v2 = params[n+3] + ratio*(params[n+7] - params[n+3]);
         }
       }
     }
