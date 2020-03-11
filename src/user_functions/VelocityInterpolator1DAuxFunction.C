@@ -102,8 +102,8 @@ VelocityInterpolator1DAuxFunction::do_evaluate(
     
     // transform results into correct coordinates and apply to field
     if ( r_ == 1 ) {
-      fieldPtr[0] = v0*cos(theta) - v1*radius*std::sin(theta);
-      fieldPtr[1] = v0*sin(theta) + v1*radius*std::cos(theta);
+      fieldPtr[0] = v0*cos(theta) - v1*std::sin(theta);
+      fieldPtr[1] = v0*sin(theta) + v1*std::cos(theta);
       fieldPtr[2] = v2;
     } else {
       fieldPtr[0] = v0;
