@@ -45,6 +45,7 @@ VelocityInterpolator1DAuxFunction::VelocityInterpolator1DAuxFunction(
     // Afterward, there is a table formed by alternating the position and the three velocity components
     // e.g. position, component1, component2, component3, position, component1, component2, component3 etc.
     // Second, third, fourth inputs are the values used outside of the range of data provided
+    // Fifth, sixth, seventh inputs define the ramp function
     // If interpolation direction is x, y, or z, cartesian components are assumed for velocity (vx, vy, vz)
     // If interpolation direction is r, cylindrical components are assumed for velocity (vr, vtheta, vz)
   x_ = (params[0] == 1);
