@@ -44,6 +44,9 @@ private:
   bool r_;
   double minpos_;
   double maxpos_;
+  double ramp_;
+  double t_ramp_;
+  double t_frac_;
   std::vector<double> params_;
 };
 
