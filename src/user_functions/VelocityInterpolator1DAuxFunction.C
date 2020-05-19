@@ -71,7 +71,7 @@ VelocityInterpolator1DAuxFunction::do_evaluate(
   const unsigned /*beginPos*/,
   const unsigned /*endPos*/) const
 {
-  double frac_ = 1.0
+  double frac_ = 1.0;
   if(ramp_ == 1.0) {
     if(time <= t_ramp_) {
       double A = 1/(2*t_frac_);
