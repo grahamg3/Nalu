@@ -31,10 +31,6 @@ VelocityInterpolator1DAuxFunction::VelocityInterpolator1DAuxFunction(
   // position limits
   minpos_(0.0),
   maxpos_(0.0),
-  // ramp
-  ramp_(0.0),
-  t_ramp_(0.0),
-  t_frac_(0.0),
   // params vector
   params_(params)
 {
@@ -45,18 +41,14 @@ VelocityInterpolator1DAuxFunction::VelocityInterpolator1DAuxFunction(
     // Afterward, there is a table formed by alternating the position and the three velocity components
     // e.g. position, component1, component2, component3, position, component1, component2, component3 etc.
     // Second, third, fourth inputs are the values used outside of the range of data provided
-    // Fifth, sixth, seventh inputs define the ramp function
     // If interpolation direction is x, y, or z, cartesian components are assumed for velocity (vx, vy, vz)
     // If interpolation direction is r, cylindrical components are assumed for velocity (vr, vtheta, vz)
   x_ = (params[0] == 1);
   y_ = (params[0] == 2);
   z_ = (params[0] == 3);
   r_ = (params[0] == 4);
-  minpos_ = params[7];
+  minpos_ = params[4];
   maxpos_ = params[params.size() - 4];
-  ramp_ = params[4];
-  t_ramp_ = params[5];
-  t_frac_ = params[6];
   params_ = params;
 }
 
@@ -71,16 +63,6 @@ VelocityInterpolator1DAuxFunction::do_evaluate(
   const unsigned /*beginPos*/,
   const unsigned /*endPos*/) const
 {
-  double frac_ = 1.0;
-  if(ramp_ == 1.0) {
-    if(time <= t_ramp_) {
-      double A = 1/(2*t_frac_);
-      double C = 2*std::atanh(t_frac_)/t_ramp_;
-      double W = t_ramp_/2;
-      frac_ = A*std::tanh(C*(time-W)) + 0.5;
-    }
-  }
-  
   for(unsigned p=0; p < numPoints; ++p) {
     
     // initialize variables at point
@@ -102,7 +84,7 @@ VelocityInterpolator1DAuxFunction::do_evaluate(
       v1 = params_[2];
       v2 = params_[3];
     } else {
-      for(unsigned n=7; n < params_.size(); n += 4) {
+      for(unsigned n=4; n < params_.size(); n += 4) {
         if(index == params_[n]) {
           v0 = params_[n+1];
           v1 = params_[n+2];
@@ -116,15 +98,15 @@ VelocityInterpolator1DAuxFunction::do_evaluate(
       }
     }
     
-    // transform results into correct coordinates, scale, and apply to field
+    // transform results into correct coordinates and apply to field
     if ( r_ == 1 ) {
-      fieldPtr[0] = frac_*(v0*cos(theta) - v1*std::sin(theta));
-      fieldPtr[1] = frac_*(v0*sin(theta) + v1*std::cos(theta));
-      fieldPtr[2] = frac_*v2;
+      fieldPtr[0] = v0*cos(theta) - v1*std::sin(theta);
+      fieldPtr[1] = v0*sin(theta) + v1*std::cos(theta);
+      fieldPtr[2] = v2;
     } else {
-      fieldPtr[0] = frac_*v0;
-      fieldPtr[1] = frac_*v1;
-      fieldPtr[2] = frac_*v2;
+      fieldPtr[0] = v0;
+      fieldPtr[1] = v1;
+      fieldPtr[2] = v2;
     }
 
     fieldPtr += fieldSize;
