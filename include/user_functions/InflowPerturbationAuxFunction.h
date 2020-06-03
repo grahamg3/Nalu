@@ -48,3 +48,5 @@ private:
 
 } // namespace nalu
 } // namespace sierra
+
+#endif
