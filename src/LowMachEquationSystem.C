@@ -1530,7 +1530,7 @@ MomentumEquationSystem::register_inflow_bc(
       theAuxFunc = new VelocityInterpolator1DAuxFunction(0,nDim,theParams);
     }
     else if ( fcnName == "velocity_interpolator_ramp" ) {
-      theAuxFunc = new VelocityInterpolator1DAuxFunction(0,nDim,theParams);
+      theAuxFunc = new VelocityInterpolator1DRampAuxFunction(0,nDim,theParams);
     }
     else {
       throw std::runtime_error("MomentumEquationSystem::register_inflow_bc: limited functions supported");
@@ -2678,7 +2678,7 @@ ContinuityEquationSystem::register_inflow_bc(
       theAuxFunc = new VelocityInterpolator1DAuxFunction(0,nDim,theParams);
     }
     else if ( fcnName == "velocity_interpolator_ramp" ) {
-      theAuxFunc = new VelocityInterpolator1DAuxFunction(0,nDim,theParams);
+      theAuxFunc = new VelocityInterpolator1DRampAuxFunction(0,nDim,theParams);
     }
     else {
       throw std::runtime_error("ContEquationSystem::register_inflow_bc: limited functions supported");
