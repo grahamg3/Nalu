@@ -182,6 +182,7 @@
 #include "user_functions/InflowPerturbationAuxFunction.h"
 #include "user_functions/RotatingWallAuxFunction.h"
 #include "user_functions/VelocityInterpolator1DAuxFunction.h"
+#include "user_functions/VelocityInterpolator1DRampAuxFunction.h"
 
 // deprecated
 #include "ContinuityMassElemSuppAlgDep.h"
@@ -1528,6 +1529,9 @@ MomentumEquationSystem::register_inflow_bc(
     else if ( fcnName == "velocity_interpolator" ) {
       theAuxFunc = new VelocityInterpolator1DAuxFunction(0,nDim,theParams);
     }
+    else if ( fcnName == "velocity_interpolator_ramp" ) {
+      theAuxFunc = new VelocityInterpolator1DAuxFunction(0,nDim,theParams);
+    }
     else {
       throw std::runtime_error("MomentumEquationSystem::register_inflow_bc: limited functions supported");
     }
@@ -2671,6 +2675,9 @@ ContinuityEquationSystem::register_inflow_bc(
       theAuxFunc = new InflowPerturbationAuxFunction(0,nDim,theParams);
     }
     else if ( fcnName == "velocity_interpolator" ) {
+      theAuxFunc = new VelocityInterpolator1DAuxFunction(0,nDim,theParams);
+    }
+    else if ( fcnName == "velocity_interpolator_ramp" ) {
       theAuxFunc = new VelocityInterpolator1DAuxFunction(0,nDim,theParams);
     }
     else {
